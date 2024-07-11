@@ -1,6 +1,7 @@
 ﻿using Application.Contracts;
 using Application.DTOs;
 using Application.ResponseDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _userRepository.GetUsersAsync();
@@ -44,6 +46,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpPost("unblock")]
+        [Authorize]
         public async Task<IActionResult> UnblockUser([FromBody] UserActionDTO userEmail)
         {
             var response = await _userRepository.UnblockUserAsync(userEmail);
@@ -51,6 +54,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpPost("block")]
+        [Authorize]
         public async Task<IActionResult> BlockUser([FromBody] UserActionDTO userId)
         {
             var response = await _userRepository.BlockUserAsync(userId);
@@ -58,6 +62,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpPost("delete")]
+        [Authorize]
         public async Task<IActionResult> DeleteUser([FromBody] UserActionDTO userId)
         {
             var response = await _userRepository.DeletUserAsync(userId);
