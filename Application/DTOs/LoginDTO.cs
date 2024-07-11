@@ -2,7 +2,7 @@
 
 namespace Application.DTOs
 {
-    internal class LoginDTO
+    public class LoginDTO
     {
         [Required]
         public string? Email { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Application.DTOs
 {
-    internal class RegisterDTO
+    public class RegisterDTO
     {
         [Required]
         public string Name { get; set; } = string.Empty;
