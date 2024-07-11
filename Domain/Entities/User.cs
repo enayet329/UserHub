@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
-    internal class User
+    public class User
     {
         [Key]
         public int Id { get; set; }
