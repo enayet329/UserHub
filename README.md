@@ -1,5 +1,5 @@
-# Project Name
-
+# CleanAuth
+  
 ## Description
 
 This project implements a web application with registration and authentication features following the principles of Clean Architecture. Non-authenticated users are restricted from accessing user management functionalities, including an admin panel. Authenticated users can manage users via a table interface that displays user details such as id, name, email, last login time, registration time, and status (active/blocked).
