@@ -3,6 +3,7 @@ using Application.DTOs;
 using Application.ResponseDTOs;
 using Domain.Entities;
 using Infrastructure.Data;
+using Infrastructure.Services.TokenServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
@@ -10,9 +11,11 @@ namespace Infrastructure.Repository
     internal class UserRepository : IUser
     {
         private readonly UserHubContext _userHubContext;
-        public UserRepository(UserHubContext hubContext)
+        private readonly JwtTokenGenerator _tokenGenerator;
+        public UserRepository(UserHubContext hubContext,JwtTokenGenerator tokenGenerator)
         {
             _userHubContext = hubContext;
+            _tokenGenerator = tokenGenerator;
         }
 
         public async Task<LoginResponseDTO> LoginUserAsync(LoginDTO loginDTO)
@@ -28,7 +31,8 @@ namespace Infrastructure.Repository
                 getUser.LastLoginTime = DateTime.Now;
                 _userHubContext.UserHub.Update(getUser);
                 await _userHubContext.SaveChangesAsync();
-                return new LoginResponseDTO(true, "User logged in successfully");
+                var jwtToken = _tokenGenerator.GenerateToken(getUser);
+                return new LoginResponseDTO(true, "User logged in successfully", jwtToken);
             }
             else
             {
