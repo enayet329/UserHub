@@ -16,7 +16,7 @@ namespace Domain.Entities
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public TimeOnly LastLoginTime { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
+        public DateTime LastLoginTime { get; set; } = DateTime.Now;
 
         public bool IsBlocked { get; set; } = false;
 
