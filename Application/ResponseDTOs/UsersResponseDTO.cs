@@ -1,18 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Domain.Entities
+﻿namespace Application.ResponseDTOs
 {
-    public class User
-    {
-        [Key]
-        public int Id { get; set; }
-
+    public record UsersResponseDTO
+    {   
         public string Name { get; set; } = string.Empty;
 
         public string Email { get; set; } = string.Empty;
-
-        public string Password { get; set; } = string.Empty;
 
         public DateTime LastLoginTime { get; set; } = DateTime.Now;
 

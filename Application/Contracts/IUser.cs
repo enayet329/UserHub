@@ -7,6 +7,7 @@ namespace Application.Contracts
     {
         Task<RegisterResponseDTO> RegisterUserAsync(RegisterDTO registerDTO);
         Task<LoginResponseDTO> LoginUserAsync(LoginDTO loginDTO);
+        Task<List<UsersResponseDTO>> GetUsersAsync();
         Task<UserActionResponseDTO> DeletUserAsync(UserActionDTO userId);
         Task<UserActionResponseDTO> BlockUserAsync(UserActionDTO userId);
         Task<UserActionResponseDTO> UnblockUserAsync(UserActionDTO userId);

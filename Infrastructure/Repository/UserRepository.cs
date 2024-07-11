@@ -54,9 +54,7 @@ namespace Infrastructure.Repository
             {
                 Name = registerDTO.Name,
                 Email = registerDTO.Email,
-                CreatedAt = DateTime.Now,
                 IsBlocked = false,
-                IsDeleted = false,
                 Password = BCrypt.Net.BCrypt.HashPassword(registerDTO.Password)
             };
 
@@ -65,15 +63,29 @@ namespace Infrastructure.Repository
 
             return new RegisterResponseDTO(true, "User registered successfully");
         }
-
-        public async Task<UserActionResponseDTO> UnblockUserAsync(UserActionDTO userId)
+        public async Task<List<UsersResponseDTO>> GetUsersAsync()
         {
-            if (userId.UserIds == null || userId.UserIds.Count == 0)
+            var users = await _userHubContext.UserHub.ToListAsync();
+
+            var userDtos = users.Select(u => new UsersResponseDTO
+            {
+                Name = u.Name,
+                Email = u.Email,
+                LastLoginTime = u.LastLoginTime,
+                IsBlocked = u.IsBlocked
+            }).ToList();
+
+            return userDtos;
+        }
+
+        public async Task<UserActionResponseDTO> UnblockUserAsync(UserActionDTO userEmail)
+        {
+            if (userEmail.UserEmail == null || userEmail.UserEmail.Count == 0)
             {
                 return new UserActionResponseDTO(false, "No user selected");
             }
 
-            var userToUnblock = await _userHubContext.UserHub.Where(u => userId.UserIds.Contains(u.Id)).ToListAsync();
+            var userToUnblock = await _userHubContext.UserHub.Where(u => userEmail.UserEmail.Contains(u.Email)).ToListAsync();
 
             foreach (var user in userToUnblock)
             {
@@ -88,14 +100,14 @@ namespace Infrastructure.Repository
 
         public async Task<UserActionResponseDTO> BlockUserAsync(UserActionDTO userId)
         {
-            if (userId.UserIds == null || userId.UserIds.Count == 0)
+            if (userId.UserEmail == null || userId.UserEmail.Count == 0)
             {
                 return new UserActionResponseDTO(false, "No user selected");
             }
 
 
             var usersToBlock = await _userHubContext.UserHub
-                            .Where(u => userId.UserIds.Contains(u.Id))
+                            .Where(u => userId.UserEmail.Contains(u.Email))
                             .ToListAsync();
 
             foreach (var user in usersToBlock)
@@ -110,12 +122,12 @@ namespace Infrastructure.Repository
 
         public async Task<UserActionResponseDTO> DeletUserAsync(UserActionDTO userId)
         {
-            if (userId.UserIds == null || userId.UserIds.Count == 0)
+            if (userId.UserEmail == null || userId.UserEmail.Count == 0)
             {
                 return new UserActionResponseDTO(false, "No user selected");
             }
             var usersToDelete = await _userHubContext.UserHub
-                            .Where(u => userId.UserIds.Contains(u.Id))
+                            .Where(u => userId.UserEmail.Contains(u.Email))
                             .ToListAsync();
 
             _userHubContext.UserHub.RemoveRange(usersToDelete);

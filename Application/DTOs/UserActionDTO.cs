@@ -2,7 +2,7 @@
 {
     public class UserActionDTO
     {
-        public List<int>? UserIds { get; set; }
+        public List<string>? UserEmail { get; set; }
     }
 
 }
