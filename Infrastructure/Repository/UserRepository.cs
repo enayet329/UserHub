@@ -89,7 +89,10 @@ namespace Infrastructure.Repository
 
             foreach (var user in userToUnblock)
             {
-                user.IsBlocked = false;
+                if(user.IsBlocked == true)
+                {
+                    user.IsBlocked = false;
+                }
             }
 
             await _userHubContext.SaveChangesAsync();
@@ -112,7 +115,10 @@ namespace Infrastructure.Repository
 
             foreach (var user in usersToBlock)
             {
-                user.IsBlocked = true;
+                if(user.IsBlocked == false)
+                {
+                    user.IsBlocked = true;
+                }
             }
 
             await _userHubContext.SaveChangesAsync();
