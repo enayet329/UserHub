@@ -87,6 +87,11 @@ namespace Infrastructure.Repository
 
             var userToUnblock = await _userHubContext.UserHub.Where(u => userEmail.UserEmail.Contains(u.Email)).ToListAsync();
 
+            if (userToUnblock.Count == 0)
+            {
+                return new UserActionResponseDTO(false, "No user found");
+            }
+
             foreach (var user in userToUnblock)
             {
                 if(user.IsBlocked == true)
@@ -113,6 +118,11 @@ namespace Infrastructure.Repository
                             .Where(u => userId.UserEmail.Contains(u.Email))
                             .ToListAsync();
 
+            if (usersToBlock.Count == 0)
+            {
+                return new UserActionResponseDTO(false, "No user found");
+            }
+
             foreach (var user in usersToBlock)
             {
                 if(user.IsBlocked == false)
@@ -135,6 +145,11 @@ namespace Infrastructure.Repository
             var usersToDelete = await _userHubContext.UserHub
                             .Where(u => userId.UserEmail.Contains(u.Email))
                             .ToListAsync();
+
+            if (usersToDelete.Count == 0)
+            {
+                return new UserActionResponseDTO(false, "No user found");
+            }
 
             _userHubContext.UserHub.RemoveRange(usersToDelete);
             await _userHubContext.SaveChangesAsync();

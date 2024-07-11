@@ -9,12 +9,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Text;
 
 namespace Infrastructure.DependencyInjection
 {
     public static class ServicesContainer
     {
-        public static void AddServices(this IServiceCollection services,IConfiguration configuration)
+        public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<UserHubContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("UserHubConnection"),
@@ -27,7 +28,7 @@ namespace Infrastructure.DependencyInjection
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
@@ -35,7 +36,7 @@ namespace Infrastructure.DependencyInjection
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!))
                 };
             });
 
