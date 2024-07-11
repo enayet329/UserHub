@@ -45,7 +45,7 @@ CSS framework used: Bootstrap.
 ## Architecture
 
 This project follows Clean Architecture principles, separating concerns into distinct layers:
-- **Presentation Layer:** React components for the frontend UI.
+- **Presentation Layer:** Angular components for the frontend UI.
 - **Application Layer:** Handles use cases and business logic.
 - **Domain Layer:** Contains core business entities and logic.
 - **Infrastructure Layer:** Implements database access and external services.
