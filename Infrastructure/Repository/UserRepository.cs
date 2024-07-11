@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
-    internal class UserRepository : IUser
+    internal class UserRepository : IUserRepository
     {
         private readonly UserHubContext _userHubContext;
         private readonly JwtTokenGenerator _tokenGenerator;

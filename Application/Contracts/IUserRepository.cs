@@ -3,7 +3,7 @@ using Application.ResponseDTOs;
 
 namespace Application.Contracts
 {
-    public interface IUser
+    public interface IUserRepository
     {
         Task<RegisterResponseDTO> RegisterUserAsync(RegisterDTO registerDTO);
         Task<LoginResponseDTO> LoginUserAsync(LoginDTO loginDTO);
