@@ -39,14 +39,14 @@ namespace UserHub.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _userRepository.GetUsersAsync();
             return Ok(users);
         }
 
-        [HttpPost("unblock")]
+        [HttpPut("unblock")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UnblockUser([FromBody] UserActionDTO userEmail)
         {
@@ -54,7 +54,7 @@ namespace UserHub.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("block")]
+        [HttpPut("block")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> BlockUser([FromBody] UserActionDTO userId)
         {
