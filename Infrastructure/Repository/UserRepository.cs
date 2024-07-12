@@ -12,7 +12,7 @@ namespace Infrastructure.Repository
     {
         private readonly UserHubContext _userHubContext;
         private readonly JwtTokenGenerator _tokenGenerator;
-        public UserRepository(UserHubContext hubContext,JwtTokenGenerator tokenGenerator)
+        public UserRepository(UserHubContext hubContext, JwtTokenGenerator tokenGenerator)
         {
             _userHubContext = hubContext;
             _tokenGenerator = tokenGenerator;
@@ -47,8 +47,10 @@ namespace Infrastructure.Repository
 
             if (getUser != null)
             {
-                return new RegisterResponseDTO(false, "User already exists");
+                string message = getUser.IsBlocked ? "User is blocked" : "User already exists";
+                return new RegisterResponseDTO(false, message);
             }
+
 
             var user = new User()
             {
@@ -85,7 +87,8 @@ namespace Infrastructure.Repository
                 return new UserActionResponseDTO(false, "No user selected");
             }
 
-            var userToUnblock = await _userHubContext.UserHub.Where(u => userEmail.UserEmail.Contains(u.Email)).ToListAsync();
+            var userToUnblock = await _userHubContext.UserHub.Where(u =>
+                                                userEmail.UserEmail.Contains(u.Email)).ToListAsync();
 
             if (userToUnblock.Count == 0)
             {
@@ -94,7 +97,7 @@ namespace Infrastructure.Repository
 
             foreach (var user in userToUnblock)
             {
-                if(user.IsBlocked == true)
+                if (user.IsBlocked == true)
                 {
                     user.IsBlocked = false;
                 }
@@ -125,7 +128,7 @@ namespace Infrastructure.Repository
 
             foreach (var user in usersToBlock)
             {
-                if(user.IsBlocked == false)
+                if (user.IsBlocked == false)
                 {
                     user.IsBlocked = true;
                 }
