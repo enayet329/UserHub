@@ -1,27 +1,31 @@
-using Infrastructure.DependencyInjection;
 using Microsoft.OpenApi.Models;
-
-
+using Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5558")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swagger =>
 {
-    //This is to add the authorization button on the swagger UI
     swagger.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
         Title = "ASP.NET 8 Web API",
         Description = "An API to perform some operations"
     });
-    // To Enable Bearer Authentication
+
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -41,29 +45,29 @@ builder.Services.AddSwaggerGen(swagger =>
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 }
-            },Array.Empty<string>()
+            }, Array.Empty<string>()
         }
     });
-}
-);
+});
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ASP.NET 8 Web API v1");
+        c.RoutePrefix = "swagger";
+    });
 }
 
+app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
