@@ -5,12 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+// Update CORS policy to allow requests from Angular app
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
+    options.AddPolicy("AllowAngularApp",
         builder =>
         {
-            builder.WithOrigins("http://localhost:5558")
+            builder.WithOrigins("http://localhost:4200")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
@@ -25,7 +26,6 @@ builder.Services.AddSwaggerGen(swagger =>
         Title = "ASP.NET 8 Web API",
         Description = "An API to perform some operations"
     });
-
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -34,7 +34,6 @@ builder.Services.AddSwaggerGen(swagger =>
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
     });
-
     swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -65,9 +64,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseCors("AllowSpecificOrigin");
+
+app.UseCors("AllowAngularApp");
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();
