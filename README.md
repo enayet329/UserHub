@@ -15,10 +15,37 @@ CSS framework used: Bootstrap.
 - **Database:** SQL Server 
 - **Authentication:** JWT (JSON Web Tokens)
 
+
+## Backend (ASP.NET Core)
+  -src/
+├── Application/
+│   ├── DTOs/
+│   │   ├── UserActionDTO.cs
+│   ├── Interfaces/
+│   │   ├── IUserService.cs
+├── Domain/
+│   ├── Entities/
+│   │   ├── User.cs
+├── Infrastructure/
+│   ├── Data/
+│   │   ├── ApplicationDbContext.cs
+│   ├── Repositories/
+│   │   ├── UserRepository.cs
+├── Presentation/
+│   ├── Controllers/
+│   │   ├── AuthController.cs
+│   │   ├── UserController.cs
+├── WebAPI/
+│   ├── Program.cs
+│   ├── Startup.cs
+│   └── ...
+└── ...
+
+
 ## Architecture
 
 This project follows Clean Architecture principles, separating concerns into distinct layers:
-- **Presentation Layer:** React components for the frontend UI.
+- **Presentation Layer:** Angular components for the frontend UI.
 - **Application Layer:** Handles use cases and business logic.
 - **Domain Layer:** Contains core business entities and logic.
 - **Infrastructure Layer:** Implements database access and external services.
