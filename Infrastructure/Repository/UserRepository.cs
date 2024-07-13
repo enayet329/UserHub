@@ -22,9 +22,9 @@ namespace Infrastructure.Repository
         {
             var getUser = await FindUserByEmail(loginDTO.Email!);
             if (getUser == null || getUser.IsBlocked)
-            {   
-                var message = getUser.IsBlocked? "User is blocked" : "User not found";
-                return new LoginResponseDTO(false,message);
+            {
+                var message = getUser == null ? "User not found" : "User is blocked";
+                return new LoginResponseDTO(false, message);
             }
             bool checkPass = BCrypt.Net.BCrypt.Verify(loginDTO.Password!, getUser.Password);
             if (checkPass)
