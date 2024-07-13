@@ -3,7 +3,9 @@ using Application.DTOs;
 using Application.ResponseDTOs;
 using Domain.Entities;
 using Infrastructure.Data;
+using Infrastructure.Hubs;
 using Infrastructure.Services.TokenServices;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
@@ -12,12 +14,14 @@ namespace Infrastructure.Repository
     {
         private readonly UserHubContext _userHubContext;
         private readonly JwtTokenGenerator _tokenGenerator;
-        public UserRepository(UserHubContext hubContext, JwtTokenGenerator tokenGenerator)
+        private readonly IHubContext<UserHub> _hubContext;
+
+        public UserRepository(UserHubContext hubContext, JwtTokenGenerator tokenGenerator, IHubContext<UserHub> userHubContext)
         {
             _userHubContext = hubContext;
             _tokenGenerator = tokenGenerator;
+            _hubContext = userHubContext;
         }
-
         public async Task<LoginResponseDTO> LoginUserAsync(LoginDTO loginDTO)
         {
             var getUser = await FindUserByEmail(loginDTO.Email!);

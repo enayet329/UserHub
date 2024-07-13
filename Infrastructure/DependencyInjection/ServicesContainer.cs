@@ -3,6 +3,7 @@ using Domain.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repository;
 using Infrastructure.Services.TokenServices;
+using Infrastructure.Hubs; // Add this line
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,12 +39,27 @@ namespace Infrastructure.DependencyInjection
                     ValidAudience = configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!))
                 };
+
+                // Configure the JWT Bearer Events to handle SignalR authentication
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/userhub"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
+            services.AddSignalR();
             services.AddScoped<JwtTokenGenerator>();
-
             services.AddScoped<IUserRepository, UserRepository>();
-
+            services.AddSingleton<UserHub>();
         }
     }
 }
