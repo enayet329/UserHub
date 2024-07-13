@@ -39,7 +39,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpGet]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _userRepository.GetUsersAsync();
@@ -47,7 +47,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpPut("unblock")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UnblockUser([FromBody] UserActionDTO userEmail)
         {
             var response = await _userRepository.UnblockUserAsync(userEmail);
@@ -55,7 +55,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpPut("block")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> BlockUser([FromBody] UserActionDTO user)
         {
             var response = await _userRepository.BlockUserAsync(user);
@@ -63,7 +63,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpDelete("delete")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteUser([FromBody] UserActionDTO userId)
         {
             var response = await _userRepository.DeletUserAsync(userId);
