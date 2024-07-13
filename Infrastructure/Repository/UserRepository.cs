@@ -21,9 +21,10 @@ namespace Infrastructure.Repository
         public async Task<LoginResponseDTO> LoginUserAsync(LoginDTO loginDTO)
         {
             var getUser = await FindUserByEmail(loginDTO.Email!);
-            if (getUser == null)
-            {
-                return new LoginResponseDTO(false, "User not found");
+            if (getUser == null || getUser.IsBlocked)
+            {   
+                var message = getUser.IsBlocked? "User is blocked" : "User not found";
+                return new LoginResponseDTO(false,message);
             }
             bool checkPass = BCrypt.Net.BCrypt.Verify(loginDTO.Password!, getUser.Password);
             if (checkPass)
