@@ -13,7 +13,6 @@ namespace UserHub.API.Controllers
     public class UserHubController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-
         public UserHubController(IUserRepository user)
         {
             _userRepository = user;
@@ -21,21 +20,22 @@ namespace UserHub.API.Controllers
 
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegisterResponseDTO))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<RegisterResponseDTO>> Register([FromBody] RegisterDTO registerDTO)
         {
             var response = await _userRepository.RegisterUserAsync(registerDTO);
-            return response.IsSuccess ? Ok(response) : BadRequest(response);
+            return Ok(response);
         }
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponseDTO))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<LoginResponseDTO>> Login([FromBody] LoginDTO loginDTO)
         {
-
+            if(loginDTO.Email == null || loginDTO.Password == null)
+            {
+                return BadRequest("Email or Password cannot be null");
+            }
             var response = await _userRepository.LoginUserAsync(loginDTO);
-            return response.IsSuccess ? Ok(response) : BadRequest(response);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -51,7 +51,7 @@ namespace UserHub.API.Controllers
         public async Task<IActionResult> UnblockUser([FromBody] UserActionDTO userEmail)
         {
             var response = await _userRepository.UnblockUserAsync(userEmail);
-            return response.IsSuccess ? Ok(response) : BadRequest(response);
+            return Ok(response);
         }
 
         [HttpPut("block")]
@@ -59,7 +59,7 @@ namespace UserHub.API.Controllers
         public async Task<IActionResult> BlockUser([FromBody] UserActionDTO user)
         {
             var response = await _userRepository.BlockUserAsync(user);
-            return response.IsSuccess ? Ok(response) : BadRequest(response);
+            return Ok(response);
         }
 
         [HttpDelete("delete")]
@@ -67,7 +67,9 @@ namespace UserHub.API.Controllers
         public async Task<IActionResult> DeleteUser([FromBody] UserActionDTO userId)
         {
             var response = await _userRepository.DeletUserAsync(userId);
-            return response.IsSuccess ? Ok(response) : BadRequest(response);
+            return Ok(response);
         }
+
+
     }
 }

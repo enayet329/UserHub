@@ -1,13 +1,11 @@
 using Microsoft.OpenApi.Models;
 using Infrastructure.DependencyInjection;
-using Infrastructure.Hubs;
-using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-
+// Update CORS policy to allow requests from Angular app
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp",
@@ -15,8 +13,7 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://localhost:4200")
                    .AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .AllowCredentials();
+                   .AllowAnyMethod();
         });
 });
 
@@ -55,8 +52,6 @@ builder.Services.AddSwaggerGen(swagger =>
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
-builder.Services.AddSignalR();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -69,10 +64,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseCors("AllowAngularApp");
 
-// Map SignalR hub
-app.MapHub<Infrastructure.Hubs.UserHub>("/userhub");
+app.UseCors("AllowAngularApp");
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
