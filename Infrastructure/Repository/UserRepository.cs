@@ -109,16 +109,16 @@ namespace Infrastructure.Repository
         }
 
 
-        public async Task<UserActionResponseDTO> BlockUserAsync(UserActionDTO userId)
+        public async Task<UserActionResponseDTO> BlockUserAsync(UserActionDTO user)
         {
-            if (userId.UserEmail == null || userId.UserEmail.Count == 0)
+            if (user.UserEmail == null || user.UserEmail.Count == 0)
             {
                 return new UserActionResponseDTO(false, "No user selected");
             }
 
 
             var usersToBlock = await _userHubContext.UserHub
-                            .Where(u => userId.UserEmail.Contains(u.Email))
+                            .Where(u => user.UserEmail.Contains(u.Email))
                             .ToListAsync();
 
             if (usersToBlock.Count == 0)
@@ -126,11 +126,11 @@ namespace Infrastructure.Repository
                 return new UserActionResponseDTO(false, "No user found");
             }
 
-            foreach (var user in usersToBlock)
+            foreach (var users in usersToBlock)
             {
-                if (user.IsBlocked == false)
+                if (users.IsBlocked == false)
                 {
-                    user.IsBlocked = true;
+                    users.IsBlocked = true;
                 }
             }
 

@@ -47,7 +47,7 @@ namespace UserHub.API.Controllers
         }
 
         [HttpPut("unblock")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UnblockUser([FromBody] UserActionDTO userEmail)
         {
             var response = await _userRepository.UnblockUserAsync(userEmail);
@@ -55,15 +55,15 @@ namespace UserHub.API.Controllers
         }
 
         [HttpPut("block")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> BlockUser([FromBody] UserActionDTO userId)
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> BlockUser([FromBody] UserActionDTO user)
         {
-            var response = await _userRepository.BlockUserAsync(userId);
+            var response = await _userRepository.BlockUserAsync(user);
             return Ok(response);
         }
 
-        [HttpPost("delete")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("delete")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteUser([FromBody] UserActionDTO userId)
         {
             var response = await _userRepository.DeletUserAsync(userId);
