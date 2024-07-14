@@ -23,7 +23,7 @@ namespace Infrastructure.Repository
             var getUser = await FindUserByEmail(loginDTO.Email!);
             if (getUser == null || getUser.IsBlocked)
             {
-                var message = getUser == null ? "User not found" : "User is blocked";
+                var message = getUser == null ? "User not found with this email" : "User is blocked by admin";
                 return new LoginResponseDTO(false, message);
             }
             bool checkPass = BCrypt.Net.BCrypt.Verify(loginDTO.Password!, getUser.Password);
@@ -37,7 +37,7 @@ namespace Infrastructure.Repository
             }
             else
             {
-                return new LoginResponseDTO(false, "Invalid password");
+                return new LoginResponseDTO(false, "Invalid password or email");
             }
 
         }
@@ -48,7 +48,7 @@ namespace Infrastructure.Repository
 
             if (getUser != null)
             {
-                string message = getUser.IsBlocked ? "User is blocked" : "User already exists";
+                string message = getUser.IsBlocked ? "User is blocked by admin" : "User already exists with this email";
                 return new RegisterResponseDTO(false, message);
             }
 
@@ -64,7 +64,7 @@ namespace Infrastructure.Repository
             await _userHubContext.UserHub.AddAsync(user);
             await _userHubContext.SaveChangesAsync();
 
-            return new RegisterResponseDTO(true, "User registered successfully");
+            return new RegisterResponseDTO(true, "User registered successfully now you can login");
         }
         public async Task<List<UsersResponseDTO>> GetUsersAsync()
         {
@@ -85,7 +85,7 @@ namespace Infrastructure.Repository
         {
             if (userEmail.UserEmail == null || userEmail.UserEmail.Count == 0)
             {
-                return new UserActionResponseDTO(false, "No user selected");
+                return new UserActionResponseDTO(false, "No user selected to unblock");
             }
 
             var userToUnblock = await _userHubContext.UserHub.Where(u =>
@@ -93,7 +93,7 @@ namespace Infrastructure.Repository
 
             if (userToUnblock.Count == 0)
             {
-                return new UserActionResponseDTO(false, "No user found");
+                return new UserActionResponseDTO(false, "No user found to unblock");
             }
 
             foreach (var user in userToUnblock)
@@ -114,7 +114,7 @@ namespace Infrastructure.Repository
         {
             if (user.UserEmail == null || user.UserEmail.Count == 0)
             {
-                return new UserActionResponseDTO(false, "No user selected");
+                return new UserActionResponseDTO(false, "No user selected to block");
             }
 
 
@@ -124,7 +124,7 @@ namespace Infrastructure.Repository
 
             if (usersToBlock.Count == 0)
             {
-                return new UserActionResponseDTO(false, "No user found");
+                return new UserActionResponseDTO(false, "No user found to block");
             }
 
             foreach (var users in usersToBlock)
@@ -144,7 +144,7 @@ namespace Infrastructure.Repository
         {
             if (userId.UserEmail == null || userId.UserEmail.Count == 0)
             {
-                return new UserActionResponseDTO(false, "No user selected");
+                return new UserActionResponseDTO(false, "No user selected to delete");
             }
             var usersToDelete = await _userHubContext.UserHub
                             .Where(u => userId.UserEmail.Contains(u.Email))
@@ -152,13 +152,13 @@ namespace Infrastructure.Repository
 
             if (usersToDelete.Count == 0)
             {
-                return new UserActionResponseDTO(false, "No user found");
+                return new UserActionResponseDTO(false, "No user found to delete");
             }
 
             _userHubContext.UserHub.RemoveRange(usersToDelete);
             await _userHubContext.SaveChangesAsync();
 
-            return new UserActionResponseDTO(true, "User deleted successfully");
+            return new UserActionResponseDTO(true, "User deleted successfully ");
 
         }
 

@@ -23,7 +23,7 @@ namespace UserHub.API.Controllers
         public async Task<ActionResult<RegisterResponseDTO>> Register([FromBody] RegisterDTO registerDTO)
         {
             var response = await _userRepository.RegisterUserAsync(registerDTO);
-            return response.IsSuccess ? Ok(response) : BadRequest(response.Message);
+            return Ok(response);
         }
 
         [HttpPost("login")]
@@ -35,7 +35,7 @@ namespace UserHub.API.Controllers
                 return BadRequest("Email or Password cannot be null");
             }
             var response = await _userRepository.LoginUserAsync(loginDTO);
-            return response.IsSuccess?Ok(response):BadRequest(response.Message);
+            return Ok(response);
         }
 
         [HttpGet]
@@ -51,7 +51,7 @@ namespace UserHub.API.Controllers
         public async Task<IActionResult> UnblockUser([FromBody] UserActionDTO userEmail)
         {
             var response = await _userRepository.UnblockUserAsync(userEmail);
-            return response.IsSuccess ? Ok(response) : BadRequest(response.Message);
+            return Ok(response);
         }
 
         [HttpPut("block")]
@@ -59,7 +59,7 @@ namespace UserHub.API.Controllers
         public async Task<IActionResult> BlockUser([FromBody] UserActionDTO user)
         {
             var response = await _userRepository.BlockUserAsync(user);
-            return response.IsSuccess ? Ok(response) : BadRequest(response.Message);
+            return Ok(response);
         }
 
         [HttpDelete("delete")]
@@ -67,7 +67,7 @@ namespace UserHub.API.Controllers
         public async Task<IActionResult> DeleteUser([FromBody] UserActionDTO userId)
         {
             var response = await _userRepository.DeletUserAsync(userId);
-            return response.IsSuccess ? Ok(response) : BadRequest(response.Message);
+            return Ok(response);
         }
 
 
