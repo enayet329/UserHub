@@ -1,12 +1,12 @@
 # CleanAuth
-  
+
 ## Description
 
-This project implements a web application with registration and authentication features following the principles of Clean Architecture. Non-authenticated users are restricted from accessing user management functionalities, including an admin panel. Authenticated users can manage users via a table interface that displays user details such as id, name, email, last login time, registration time, and status (active/blocked).
+CleanAuth is a web application that implements registration and authentication features following Clean Architecture principles. It restricts non-authenticated users from accessing user management functionalities, including an admin panel. Authenticated users can manage users via a table interface displaying user details such as id, name, email, last login time, registration time, and status (active/blocked).
 
-The leftmost column of the user management table includes checkboxes for multiple selection, and a toolbar above the table provides actions like Block (red button), Unblock (icon), and Delete (icon).
+The user management table includes checkboxes for multiple selection, with a toolbar providing actions like Block (red button), Unblock (icon), and Delete (icon).
 
-CSS framework used: Bootstrap.
+**CSS framework:** Bootstrap.
 
 ## Technologies Used
 
@@ -15,48 +15,30 @@ CSS framework used: Bootstrap.
 - **Database:** SQL Server 
 - **Authentication:** JWT (JSON Web Tokens)
 
+## Packages
 
-## Backend (ASP.NET Core)
-  -src/
-├── Application/
-│   ├── DTOs/
-│   │   ├── UserActionDTO.cs
-│   ├── Interfaces/
-│   │   ├── IUserService.cs
-├── Domain/
-│   ├── Entities/
-│   │   ├── User.cs
-├── Infrastructure/
-│   ├── Data/
-│   │   ├── ApplicationDbContext.cs
-│   ├── Repositories/
-│   │   ├── UserRepository.cs
-├── Presentation/
-│   ├── Controllers/
-│   │   ├── AuthController.cs
-│   │   ├── UserController.cs
-├── WebAPI/
-│   ├── Program.cs
-│   ├── Startup.cs
-│   └── ...
-└── ...
+- `BCrypt.Net-Next` Version 4.0.3
+- `Microsoft.AspNetCore.Authentication.JwtBearer` Version 8.0.7
+- `Microsoft.EntityFrameworkCore` Version 8.0.7
+- `Microsoft.EntityFrameworkCore.SqlServer` Version 8.0.7
+- `Microsoft.EntityFrameworkCore.Tools` Version 8.0.7
+
+## Backend (ASP.NET Core) Structure
 
 
 ## Architecture
 
-This project follows Clean Architecture principles, separating concerns into distinct layers:
+CleanAuth follows Clean Architecture principles, which organizes the application into distinct layers:
 - **Presentation Layer:** Angular components for the frontend UI.
-- **Application Layer:** Handles use cases and business logic.
+- **Application Layer:** Implements use cases and business logic.
 - **Domain Layer:** Contains core business entities and logic.
-- **Infrastructure Layer:** Implements database access and external services.
+- **Infrastructure Layer:** Provides implementations for database access and external services.
 
 ## Authors
 
 - **Md Enayet Hossain**
   - Email: md.enayet.hossain329@gmail.com
 
-
 ## Contact
 
-For inquiries or support, visit [portfolio-enayet-hossain.vercel.app](https://portfolio-enayet-hossain.vercel.app/home).
-
+For inquiries or support, visit [Md Enayet Hossain's Portfolio](https://portfolio-enayet-hossain.vercel.app/home).
