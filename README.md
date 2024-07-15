@@ -76,7 +76,7 @@ UserHub/
    ```
 2. Navigate to the backend directory:
    ```
-   cd cleanauth/backend
+   cd UserHub/backend
    ```
 3. Restore dependencies:
    ```
