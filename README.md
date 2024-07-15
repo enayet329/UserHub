@@ -21,6 +21,7 @@ Key features include:
 - `Microsoft.EntityFrameworkCore` Version 8.0.7
 - `Microsoft.EntityFrameworkCore.SqlServer` Version 8.0.7
 - `Microsoft.EntityFrameworkCore.Tools` Version 8.0.7
+- `Microsoft.EntityFrameworkCore.Design` Version 8.0.7
 
 ## Architecture
 CleanAuth follows Clean Architecture principles, which organizes the application into distinct layers:
