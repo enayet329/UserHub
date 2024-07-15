@@ -59,9 +59,7 @@ UserHub/
 │   │   └── launchSettings.json
 │   ├── appsettings.json
 │   └── appsettings.Development.json
-├── Program.cs
-├── Startup.cs
-└── fly.toml
+└── program.cs
 
 ```
 
