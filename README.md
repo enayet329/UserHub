@@ -32,25 +32,37 @@ CleanAuth follows Clean Architecture principles, which organizes the application
 
 ## Backend Structure
 ```
-CleanAuth.Backend/
-├── src/
-│   ├── CleanAuth.API/
-│   │   ├── Controllers/
-│   │   ├── DTOs/
-│   │   └── Program.cs
-│   ├── CleanAuth.Application/
-│   │   ├── Interfaces/
-│   │   └── Services/
-│   ├── CleanAuth.Domain/
-│   │   ├── Entities/
-│   │   └── Interfaces/
-│   └── CleanAuth.Infrastructure/
-│       ├── Data/
-│       └── Repositories/
-├── tests/
-│   ├── CleanAuth.UnitTests/
-│   └── CleanAuth.IntegrationTests/
-└── CleanAuth.sln
+UserHub/
+├── Application/
+│   ├── Contracts/
+│   │   └── IUserRepository.cs
+│   ├── DTOs/
+│   │   └── ...
+│   └── ResponseDTOs/
+│       └── ...
+├── Domain/
+│   └── Entities/
+│       └── User.cs
+├── Infrastructure/
+│   ├── Data/
+│   │   └── UserHubContext.cs
+│   ├── DependencyInjection/
+│   │   └── ServicesContainer.cs
+│   ├── Migrations/
+│   │   └── ...
+│   └── Repository/
+│       └── UserRepository.cs
+├── UserHub.API/
+│   ├── Controllers/
+│   │   └── UserHubController.cs
+│   ├── Properties/
+│   │   └── launchSettings.json
+│   ├── appsettings.json
+│   └── appsettings.Development.json
+├── Program.cs
+├── Startup.cs
+└── fly.toml
+
 ```
 
 ## Getting Started
