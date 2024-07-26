@@ -1,4 +1,4 @@
-﻿using Application.Contracts;
+using Application.Contracts;
 using Application.DTOs;
 using Application.ResponseDTOs;
 using Domain.Entities;
@@ -21,6 +21,7 @@ namespace Infrastructure.Repository
         public async Task<LoginResponseDTO> LoginUserAsync(LoginDTO loginDTO)
         {
             var getUser = await FindUserByEmail(loginDTO.Email!);
+
             if (getUser == null || getUser.IsBlocked)
             {
                 var message = getUser == null ? "User not found with this email" : "User is blocked by admin";
